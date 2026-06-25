@@ -22,7 +22,7 @@ export default class GameManager {
     }
 
     update(ship) {
-        if (this.inputManager.isKeyPressed('ArrowLeft') || this.inputlamanager.isKeyPressed('KeyA')) ship.angle -= 0.05;
+        if (this.inputManager.isKeyPressed('ArrowLeft') || this.inputManager.isKeyPressed('KeyA')) ship.angle -= 0.05;
         if (this.inputManager.isKeyPressed('ArrowRight') || this.inputManager.isKeyPressed('KeyD')) ship.angle += 0.05;
         if (this.inputManager.isKeyPressed('ArrowUp') || this.inputManager.isKeyPressed('KeyW')) {
             ship.velocityX += Math.cos(ship.angle) * 0.2;
