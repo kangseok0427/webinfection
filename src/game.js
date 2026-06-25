@@ -61,7 +61,6 @@ class Ship {
         ctx.moveTo(20, 0);
         ctx.lineTo(-15, -15);
         ctx.lineTo(-10, 0);
-        ctx.lineTo(-15, 1s);
         ctx.lineTo(-15, 15);
         ctx.closePath();
         
