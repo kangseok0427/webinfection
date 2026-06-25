@@ -14,18 +14,20 @@ let ship = new Ship(canvas.width / 2, canvas.height / 2);
 let bullets = [];
 let stars = [];
 
-for (let i = 0; i < 100; i++) {
-    stars.push(new Star(Math.random() * canvas.width, Math.random() * canvas.height));
-}
+function init() {
+    for (let i = 0; i < 100; i++) {
+        stars.push(new Star(Math.random() * canvas.width, Math.random() * canvas.height));
+    }
 
-window.addEventListener('mousedown', (e) => {
-    const angle = Math.atan2(e.clientY - ship.y, e.clientX - ship.x);
-    bullets.push(new Bullet(ship.x, ship.y, angle));
-});
+    window.addEventListener('mousedown', (e) => {
+        const angle = Math.atan2(e.clientY - ship.y, e.clientX - ship.x);
+        bullets.push(new Bullet(ship.x, ship.y, angle));
+    });
+}
 
 function update() {
     if (inputManager.isKeyPressed('ArrowLeft') || inputManager.isKeyPressed('KeyA')) ship.angle -= 0.05;
-    if (inputManager.isKeyPressed('ArrowRight') || inputManager.isKeyPressed('KeyD')) ship.angle += 0.05;
+    if (inputManager.isKeyPressed('ArrowRight') or inputManager.isKeyPressed('KeyD')) ship.angle += 0.05;
     if (inputManager.isKeyPressed('ArrowUp') || inputManager.isKeyPressed('KeyW')) {
         ship.velocityX += Math.cos(ship.angle) * 0.2;
         ship.velocityY += Math.sin(ship.angle) * 0.2;
@@ -33,12 +35,12 @@ function update() {
 
     ship.update();
 
-    bullets.forEach((bullet, index) => {
-        bullet.update();
-        if (bullet.x < 0 || bullet.x > canvas.width || bullet.y < 0 || bullet.y > canvas.height) {
-            bullets.splice(index, 1);
+    for (let i = bullets.length - 1; i >= 0; i--) {
+        bullets[i].update();
+        if (bullets[i].x < 0 || bullets[i].x > canvas.width || bullets[i].y < 0 || bullets[i].y > canvas.height) {
+            bullets.splice(i, 1);
         }
-    });
+    }
 
     stars.forEach(star => star.update());
 }
@@ -58,4 +60,5 @@ function loop() {
     requestAnimationFrame(loop);
 }
 
+init();
 loop();
