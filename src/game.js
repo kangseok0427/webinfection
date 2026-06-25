@@ -1,7 +1,7 @@
 import Ship from './obj/Ship.js';
 import Bullet from './obj/Bullet.js';
-import Star from './obj/Star.js';
 import InputManager from './InputManager.js';
+import GameManager from './GameManager.js';
 
 const canvas = document.getElementById('game-canvas');
 const ctx = canvas.getContext('2d');
@@ -10,14 +10,13 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const inputManager = new InputManager();
+const gameManager = new GameManager();
 let ship = new Ship(canvas.width / 2, canvas.height / 2);
 let bullets = [];
 let stars = [];
 
 function init() {
-    for (let i = 0; i < 100; i++) {
-        stars.push(new Star(Math.random() * canvas.width, Math.random() * canvas.height));
-    }
+    stars = gameManager.initObjs(canvas.width, canvas.height);
 
     window.addEventListener('mousedown', (e) => {
         const angle = Math.atan2(e.clientY - ship.y, e.clientX - ship.x);
@@ -27,7 +26,7 @@ function init() {
 
 function update() {
     if (inputManager.isKeyPressed('ArrowLeft') || inputManager.isKeyPressed('KeyA')) ship.angle -= 0.05;
-    if (inputManager.isKeyPressed('ArrowRight') or inputManager.isKeyPressed('KeyD')) ship.angle += 0.05;
+    if (inputManager.isKeyPressed('ArrowRight') || inputManager.isKeyPressed('KeyD')) ship.angle += 0.05;
     if (inputManager.isKeyPressed('ArrowUp') || inputManager.isKeyPressed('KeyW')) {
         ship.velocityX += Math.cos(ship.angle) * 0.2;
         ship.velocityY += Math.sin(ship.angle) * 0.2;
