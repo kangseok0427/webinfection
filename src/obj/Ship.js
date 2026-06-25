@@ -1,4 +1,4 @@
-class Ship {
+export default class Ship {
     constructor(x, y) {
         this.x = x;
         this.y = y;
@@ -14,8 +14,8 @@ class Ship {
         this.y += this.velocityY;
         this.velocityX *= this.friction;
         this.velocityY *= this.friction;
-        if (Math.abs(this.velocityX) < 0.01) this.velocityX = 0;
-        if (Math.abs(this.velocityY) < 0.01) this.velocityY = 0;
+        if (Math.abs(this.x - window.innerWidth) < 10 || Math.abs(this.x) < 10) this.velocityX *= -1;
+        if (Math.abs(this.y - window.innerHeight) < 10 || Math.abs(this.y) < 10) this.velocityY *= -1;
         if (this.x < 0) this.x = window.innerWidth;
         if (this.x > window.innerWidth) this.x = 0;
         if (this.y < 0) this.y = window.innerHeight;
