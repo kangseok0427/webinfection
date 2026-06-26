@@ -4,6 +4,7 @@ export default class GameObject {
         this.y = y;
         this.hitEnable = hitEnable;
         this.hitRadius = 0;
+        this.needDestroy = false;
     }
 
     setHitRadius(radius) {
