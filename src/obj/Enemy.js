@@ -34,6 +34,7 @@ export default class Enemy extends GameObject {
             this.hp -= 10;
             if (this.hp <= 0) {
                 this.hp = 0;
+                this.needDestroy = true;
             }
         }
     }
