@@ -8,7 +8,7 @@ export default class GameManager {
     constructor(width, height) {
         this.width = width;
         this.height = height;
-        this.inputManager = new InputManager();
+        this.inputManager = new Input/InputManager();
         this.stars = [];
         this.bullets = [];
         this.enemies = [];
@@ -66,8 +66,6 @@ export default class GameManager {
 
         // Cleanup entities where needDestroy is true
         this.entities = this.entities.filter(e => !e.needDestroy);
-        this.enemies = this.entities.filter(e => e instanceof Enemy);
-        this.bullets = this.entities.filter(e => e instanceof Bullet);
     }
 
     isKeyPressed(code) {
@@ -80,6 +78,8 @@ export default class GameManager {
 
     draw(ctx) {
         this.stars.forEach(star => star.draw(ctx));
-        this.entities.forEach(entity => entity.draw(ctx));
+        this.bullets.forEach(bullet => bullet.draw(ctx));
+        this.enemies.forEach(enemy => enemy.draw(ctx));
+        this.ship.draw(ctx);
     }
 }
