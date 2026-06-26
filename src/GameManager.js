@@ -24,8 +24,8 @@ export default class GameManager {
     }
 
     update(ship) {
-        if (this.inputManager.isKeyPressed('ArrowLeft') || this.inputManager.isKeyPressed('KeyA')) ship.angle -= 0.05;
-        if (this.inputManager.isKeyPressed('ArrowRight') || this.inputManager.isKeyPressed('KeyD')) ship.angle += 0.05;
+        if (this.inputManager.isKeyPressed('ArrowLeft') || this.isKeyPressed('KeyA')) ship.angle -= 0.05;
+        if (this.inputManager.isKeyPressed('ArrowRight') || this.isKeyPressed('KeyD')) ship.angle += 0.05;
         if (this.inputManager.isKeyPressed('ArrowUp') || this.inputManager.isKeyPressed('KeyW')) {
             ship.velocityX += Math.cos(ship.angle) * 0.2;
             ship.velocityY += Math.sin(ship.angle) * 0.2;
@@ -46,6 +46,10 @@ export default class GameManager {
 
         // Collision Detection
         this.checkCollisions(ship);
+    }
+
+    isKeyPressed(code) {
+        return this.inputManager.isKeyPressed(code);
     }
 
     checkCollisions(ship) {
@@ -72,6 +76,8 @@ export default class GameManager {
 
     draw(ctx) {
         this.stars.forEach(star => star.draw(ctx));
+        this.bullets.nforEach(bullet => bullet.draw(ctx));
+        // Note: Drawing logic for other entities should be handled by the main loop or specific managers
         this.bullets.forEach(bullet => bullet.draw(ctx));
     }
 
