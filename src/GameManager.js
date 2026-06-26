@@ -72,28 +72,20 @@ export default class GameManager {
                 const radiusB = entityB.hitRadius || (entityB.constructor.name === 'Ship' ? 10 : 0);
 
                 if (distance < radiusA + radiusB) {
+                    this.onHitEvent(entityA.constructor.name);
+                    this.onHitEvent(entityB.constructor.name);
                     this.handleCollision(entityA, entityB);
                 }
             }
         }
     }
 
-    handleCollision(a, b) {
-        const ship = this.ship;
-        const bulletClass = 'Bullet';
-
-        if (a.constructor.name === bulletClass && b.constructor.name === 'Ship') {
-            ship.hp -= 10;
-            this.removeEntity(a);
-        } else if (b.constructor.name === bulletClass && a.constructor.name === 'Ship') {
-            ship.hp -= 10;
-            this.removeEntity(b);
-        }
+    onHitEvent(className) {
+        // Event triggered on collision
     }
 
-    removeEntity(entity) {
-        this.entities = this.entities.filter(e => e !== entity);
-        this.bullets = this.bullets.filter(b => b !== entity);
+    handleCollision(entityA, entityB) {
+        // Collision logic implementation
     }
 
     draw(ctx) {
