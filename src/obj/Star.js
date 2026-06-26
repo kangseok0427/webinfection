@@ -1,7 +1,6 @@
-export default class Star {
+export default class Star extends GameObject {
     constructor(x, y) {
-        this.x = x;
-        this.y = y;
+        super(x, y, true);
         this.velocityX = Math.random() * 0.1 - 0.05;
         this.velocityY = Math.random() * 0.1 - 0.05;
     }

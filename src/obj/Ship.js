@@ -1,7 +1,6 @@
-export default class Ship {
+export default class Ship extends GameObject {
     constructor(x, y) {
-        this.x = x;
-        this.y = y;
+        super(x, y, true);
         this.angle = 0;
         this.velocityX = 0;
         this.velocityY = 0;

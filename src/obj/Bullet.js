@@ -1,7 +1,6 @@
-export default class Bullet {
+export default class Bullet extends GameObject {
     constructor(x, y, angle) {
-        this.x = x;
-        this.y = y;
+        super(x, y, true);
         this.angle = angle;
         this.velocityX = Math.cos(angle) * 7;
         this.velocityY = Math.sin(angle) * 7;
