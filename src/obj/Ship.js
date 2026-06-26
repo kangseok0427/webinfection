@@ -9,6 +9,7 @@ export default class Ship extends GameObject {
         this.hp = 100;
         this.maxHp = 100;
         this.friction = 0.99;
+        this.setHitRadius(10);
     }
     update() {
         this.x += this.velocityX;
