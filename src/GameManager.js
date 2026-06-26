@@ -80,18 +80,32 @@ export default class GameManager {
                 const entityA = this.entities[i];
                 const entityB = this.entities[j];
 
-                if (!entityA.hitEnable && !entityB.hitEnable) continue;
+                if (!entityA.hitEnable || !entityB.hitEnable) continue;
 
                 const dx = entityA.x - entityB.x;
                 const dy = entityA.y - entityB.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
-                const minDistance = (entityA.hitRadius || 0) + (entityB.hitRadius || 0);
+                const minDistance = entityA.hitRadius + entityB.hitRadius;
 
                 if (distance < minDistance) {
-                    if (entityA instanceof Bullet && entityB instanceof Enemy) {
-                        entityB.handleHit('Bullet');
-                    } else if (entityA instanceof Enemy && entityB instanceof Bullet) {
-                        entityA.handleHit('Bullet');
+                    if (entityA instanceof Bullet) {
+                        entityA.handleHit(entityB.constructor.name);
+                    } else if (entityB instanceof Bullet) {
+                        entityB.handleHit(entityA.constructor.name);
+                    }
+
+                    if (entityA instanceof Enemy) {
+                        entityA.handleHit(entityB.constructor.name);
+                    }
+                    if (entityB instanceof Enemy) {
+                        entityB.handleHit(entityA.constructor.name);
+                    }
+
+                    if (entityA instanceof Ship) {
+                        entityA.handleHit(entityB.constructor.name);
+                    }
+                    if (entityB instanceof Ship) {
+                        entityB.handleHit(entityA.constructor.name);
                     }
                 }
             }
