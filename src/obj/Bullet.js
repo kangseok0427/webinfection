@@ -6,7 +6,6 @@ export default class Bullet extends GameObject {
         this.angle = angle;
         this.velocityX = Math.cos(angle) * 7;
         this.velocityY = Math.sin(angle) * 7;
-        this.isDead = false;
     }
     update() {
         this.x += this.velocityX;
