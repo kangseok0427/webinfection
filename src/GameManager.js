@@ -1,5 +1,6 @@
 import Star from './obj/Star.js';
 import InputManager from './InputManager.js';
+import Ship from './obj/Ship.js';
 
 export default class GameManager {
     constructor(width, height) {
@@ -9,6 +10,7 @@ export default class GameManager {
         this.stars = [];
         this.bullets = [];
         this.entities = [];
+        this.ship = new Ship(width / 2, height / 2);
     }
 
     initObjs() {
@@ -23,9 +25,10 @@ export default class GameManager {
         this.entities.push(bullet);
     }
 
-    update(ship) {
-        if (this.inputManager.isKeyPressed('ArrowLeft') || this.isKeyPressed('KeyA')) ship.angle -= 0.05;
-        if (this.inputManager.isKeyPressed('ArrowRight') || this.isKeyPressed('KeyD')) ship.angle += 0.05;
+    update() {
+        const ship = this.ship;
+        if (this.inputManager.isKeyPressed('ArrowLeft') || this.inputManager.isKeyPressed('KeyA')) ship.angle -= 0.05;
+        if (this.inputManager.isKeyPressed('ArrowRight') || this.inputManager.isKeyPressed('KeyD')) ship.angle += 0.05;
         if (this.inputManager.isKeyPressed('ArrowUp') || this.inputManager.isKeyPressed('KeyW')) {
             ship.velocityX += Math.cos(ship.angle) * 0.2;
             ship.velocityY += Math.sin(ship.angle) * 0.2;
@@ -44,7 +47,6 @@ export default class GameManager {
 
         this.stars.forEach(star => star.update());
 
-        // Collision Detection
         this.checkCollisions(ship);
     }
 
@@ -64,7 +66,6 @@ export default class GameManager {
             const entityRadius = entity.hitRadius || 0;
 
             if (distance < shipRadius + entityRadius) {
-                // If bullet hits ship
                 if (entity.constructor.name === 'Bullet') {
                     ship.hp -= 10;
                     this.bullets = this.bullets.filter(b => b !== entity);
@@ -76,12 +77,7 @@ export default class GameManager {
 
     draw(ctx) {
         this.stars.forEach(star => star.draw(ctx));
-        this.bullets.nforEach(bullet => bullet.draw(ctx));
-        // Note: Drawing logic for other entities should be handled by the main loop or specific managers
         this.bullets.forEach(bullet => bullet.draw(ctx));
-    }
-
-    get input() {
-        return this.inputManager;
+        this.ship.draw(ctx);
     }
 }
