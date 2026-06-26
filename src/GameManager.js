@@ -10,16 +10,14 @@ export default class GameManager {
         this.height = height;
         this.inputManager = new InputManager();
         this.entities = [];
-        this.stars = [];
         this.ship = new Ship(width / 2, height / 2);
     }
 
     initObjs() {
         this.entities = [];
-        this.stars = [];
         for (let i = 0; i < 100; i++) {
             const star = new Star(Math.random() * this.width, Math.random() * this.height);
-            this.stars.push(star);
+            this.entities.push(star);
         }
         
         for (let i = 0; i < 5; i++) {
@@ -38,7 +36,7 @@ export default class GameManager {
         const ship = this.ship;
         if (this.inputManager.isKeyPressed('ArrowLeft') || this.inputManager.isKeyPressed('KeyA')) ship.angle -= 0.05;
         if (this.inputManager.isKeyPressed('ArrowRight') || this.inputManager.isKeyPressed('KeyD')) ship.angle += 0.05;
-        if (this.inputManager.isKeyPressed('nArrowUp') || this.inputManager.isKeyPressed('KeyW')) {
+        if (this.inputManager.isKeyPressed('ArrowUp') || this.inputManager.isKeyPressed('KeyW')) {
             ship.velocityX += Math.cos(ship.angle) * 0.2;
             ship.velocityY += Math.sin(ship.angle) * 0.2;
         }
@@ -56,9 +54,10 @@ export default class GameManager {
                     entity.needDestroy = true;
                 }
             }
+            if (entity instanceof Star) {
+                entity.update();
+            }
         }
-
-        this.stars.forEach(star => star.update());
 
         this.checkCollisions();
 
@@ -75,7 +74,6 @@ export default class GameManager {
     }
 
     draw(ctx) {
-        this.stars.forEach(star => star.draw(ctx));
         this.entities.forEach(entity => entity.draw(ctx));
     }
 }
