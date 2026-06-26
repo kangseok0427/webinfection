@@ -8,31 +8,29 @@ export default class GameManager {
     constructor(width, height) {
         this.width = width;
         this.height = height;
-        this.inputManager = new Input/InputManager();
-        this.stars = [];
-        this.bullets = [];
-        this.enemies = [];
+        this.inputManager = new InputManager();
         this.entities = [];
+        this.stars = [];
         this.ship = new Ship(width / 2, height / 2);
     }
 
     initObjs() {
+        this.entities = [];
         this.stars = [];
         for (let i = 0; i < 100; i++) {
-            this.stars.push(new Star(Math.random() * this.width, Math.random() * this.height));
+            const star = new Star(Math.random() * this.width, Math.random() * this.height);
+            this.stars.push(star);
         }
         
-        this.enemies = [];
         for (let i = 0; i < 5; i++) {
             const enemy = new Enemy(Math.random() * this.width, Math.random() * this.height);
-            this.enemies.push(enemy);
+            this.entities.push(enemy);
         }
 
-        this.entities = [this.ship, ...this.enemies];
+        this.entities.push(this.ship);
     }
 
     addBullet(bullet) {
-        this.bullets.push(bullet);
         this.entities.push(bullet);
     }
 
@@ -40,7 +38,7 @@ export default class GameManager {
         const ship = this.ship;
         if (this.inputManager.isKeyPressed('ArrowLeft') || this.inputManager.isKeyPressed('KeyA')) ship.angle -= 0.05;
         if (this.inputManager.isKeyPressed('ArrowRight') || this.inputManager.isKeyPressed('KeyD')) ship.angle += 0.05;
-        if (this.inputManager.isKeyPressed('ArrowUp') || this.inputManager.isKeyPressed('KeyW')) {
+        if (this.inputManager.isKeyPressed('nArrowUp') || this.inputManager.isKeyPressed('KeyW')) {
             ship.velocityX += Math.cos(ship.angle) * 0.2;
             ship.velocityY += Math.sin(ship.angle) * 0.2;
         }
@@ -78,8 +76,6 @@ export default class GameManager {
 
     draw(ctx) {
         this.stars.forEach(star => star.draw(ctx));
-        this.bullets.forEach(bullet => bullet.draw(ctx));
-        this.enemies.forEach(enemy => enemy.draw(ctx));
-        this.ship.draw(ctx);
+        this.entities.forEach(entity => entity.draw(ctx));
     }
 }
