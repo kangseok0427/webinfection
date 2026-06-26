@@ -65,6 +65,11 @@ export default class GameManager {
         this.stars.forEach(star => star.update());
 
         this.checkCollisions();
+
+        // Cleanup dead entities
+        this.entities = this.entities.filter(e => !e.isDead && e.hp > 0);
+        this.enemies = this.entities.filter(e => e instanceof Enemy);
+        this.bullets = this.entities.filter(e => e instanceof Bullet);
     }
 
     isKeyPressed(code) {
@@ -72,15 +77,10 @@ export default class GameManager {
     }
 
     checkCollisions() {
-        const ship = this.ship;
-        const shipRadius = 10;
-
         for (let i = 0; i < this.entities.length; i++) {
             for (let j = i + 1; j < this.entities.length; j++) {
                 const entityA = this.entities[i];
                 const entityB = this.entities[j];
-
-                if (!entityA.hitEnable || !entityB.hitEnable) continue;
 
                 const dx = entityA.x - entityB.x;
                 const dy = entityA.y - entityB.y;
@@ -88,25 +88,8 @@ export default class GameManager {
                 const minDistance = entityA.hitRadius + entityB.hitRadius;
 
                 if (distance < minDistance) {
-                    if (entityA instanceof Bullet) {
-                        entityA.handleHit(entityB.constructor.name);
-                    } else if (entityB instanceof Bullet) {
-                        entityB.handleHit(entityA.constructor.name);
-                    }
-
-                    if (entityA instanceof Enemy) {
-                        entityA.handleHit(entityB.constructor.name);
-                    }
-                    if (entityB instanceof Enemy) {
-                        entityB.handleHit(entityA.constructor.name);
-                    }
-
-                    if (entityA instanceof Ship) {
-                        entityA.handleHit(entityB.constructor.name);
-                    }
-                    if (entityB instanceof Ship) {
-                        entityB.handleHit(entityA.constructor.name);
-                    }
+                    entityA.handleHit(entityB.constructor.name);
+                    entityB.handleHit(entityA.constructor.name);
                 }
             }
         }
@@ -114,8 +97,6 @@ export default class GameManager {
 
     draw(ctx) {
         this.stars.forEach(star => star.draw(ctx));
-        this.enemies.forEach(enemy => enemy.draw(ctx));
-        this.bullets.forEach(bullet => bullet.draw(ctx));
-        this.ship.draw(ctx);
+        this.entities.forEach(entity => entity.draw(ctx));
     }
 }
