@@ -1,3 +1,5 @@
+import GameObject from './GameObject.js';
+
 export default class Bullet extends GameObject {
     constructor(x, y, angle) {
         super(x, y, true);

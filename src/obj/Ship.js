@@ -1,3 +1,5 @@
+import GameObject from './GameObject.js';
+
 export default class Ship extends GameObject {
     constructor(x, y) {
         super(x, y, true);
