@@ -1,6 +1,7 @@
 import Star from './obj/Star.js';
 import InputManager from './InputManager.js';
 import Ship from './obj/Ship.js';
+import Enemy from './obj/Enemy.js';
 
 export default class GameManager {
     constructor(width, height) {
@@ -19,6 +20,11 @@ export default class GameManager {
             this.stars.push(new Star(Math.random() * this.width, Math.random() * this.height));
         }
         this.entities = [this.ship];
+        
+        for (let i = 0; i < 5; i++) {
+            const enemy = new Enemy(Math.random() * this.width, Math.random() * this.height);
+            this.entities.push(enemy);
+        }
     }
 
     addBullet(bullet) {
@@ -37,11 +43,18 @@ export default class GameManager {
 
         ship.update();
 
-        for (let i = this.bullets.length - 1; i >= 0; i--) {
-            this.bullets[i].update();
-            if (this.bullets[i].x < 0 || this.bullets[i].x > this.width || this.bullets[i].y < 0 || this.bullets[i].y > this.height) {
-                this.entities = this.entities.filter(e => e !== this.bullets[i]);
-                this.bullets.splice(i, 1);
+        for (let i = this.entities.length - 1; i >= 0; i--) {
+            const entity = this.entities[i];
+            if (entity instanceof Enemy) {
+                entity.update(ship);
+            }
+            if (entity instanceof Bullet) {
+                entity.update();
+                if (entity.x < 0 || entity.x > this.width || entity.y < 0 || entity.y > this.height) {
+                    this.entities = this.entities.filter(e => e !== entity);
+                    const bulletIdx = this.bullets.indexOf(entity);
+                    if (bulletIdx > -1) this.bullets.splice(bulletIdx, 1);
+                }
             }
         }
 
@@ -61,7 +74,7 @@ export default class GameManager {
         for (let i = 0; i < this.entities.length; i++) {
             for (let j = i + 1; j < this.entities.length; j++) {
                 const entityA = this.entities[i];
-                const entityB = this.entities[j];
+                const entityB = this.nebula = this.entities[j];
 
                 if (!entityA.hitEnable && !entityB.hitEnable) continue;
 
@@ -81,7 +94,8 @@ export default class GameManager {
 
     draw(ctx) {
         this.stars.forEach(star => star.draw(ctx));
-        this.bullets.forEach(bullet => bullet.draw(ctx));
-        this.ship.draw(ctx);
+        this.entities.forEach(entity => {
+            if (entity.draw) entity.draw(ctx);
+        });
     }
 }

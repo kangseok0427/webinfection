@@ -13,7 +13,6 @@ export default class Enemy extends GameObject {
     }
 
     update(ship) {
-        // Follow ship logic
         const dx = ship.x - this.x;
         const dy = ship.y - this.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
@@ -24,7 +23,6 @@ export default class Enemy extends GameObject {
             this.y += Math.sin(this.angle) * this.speed;
         }
 
-        // Boundary wrap
         if (this.x < 0) this.x = window.innerWidth;
         if (this.x > window.innerWidth) this.x = 0;
         if (this.y < 0) this.y = window.innerHeight;
@@ -36,7 +34,6 @@ export default class Enemy extends GameObject {
             this.hp -= 10;
             if (this.hp <= 0) {
                 this.hp = 0;
-                // Logic for death can be added in GameManager
             }
         }
     }
@@ -45,16 +42,10 @@ export default class Enemy extends GameObject {
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
-        ctx.beginPath();
-        ctx.moveTo(12, 0);
-        ctx.lineTo(-8, -8);
-        ctx.lineTo(-8, 8);
-        ctx.closePath();
-        ctx.strokeStyle = '#ff0000';
-        ctx.lineWidth = 2;
-        ctx.stroke();
+        ctx.fillStyle = '#ff0000';
+        const size = 12;
+        ctx.fillRect(-size/2, -size/2, size, size);
         
-        // HP Bar
         ctx.fillStyle = '#ff0000';
         ctx.fillRect(-10, -15, 20 * (this.hp / this.maxHp), 3);
         ctx.restore();
