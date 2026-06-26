@@ -1,5 +1,5 @@
 import Star from './obj/Star.js';
-import InputManager from './Input/InputManager.js';
+import InputManager from './InputManager.js';
 import Ship from './obj/Ship.js';
 import Enemy from './obj/Enemy.js';
 import Bullet from './obj/Bullet.js';
@@ -83,11 +83,8 @@ export default class GameManager {
                     const minDistance = a.hitRadius + b.hitRadius;
 
                     if (distance < minDistance) {
-                        const aName = a.constructor.name;
-                        const bName = b.constructor.name;
-                        
-                        a.handleHit(bName);
-                        b.handleHit(aName);
+                        a.handleHit(b.constructor.name);
+                        b.handleHit(a.constructor.name);
                     }
                 }
             }
@@ -95,6 +92,8 @@ export default class GameManager {
     }
 
     draw(ctx) {
-        this.entities.forEach(entity => entity.draw(ctx));
+        for (const entity of this.entities) {
+            entity.draw(ctx);
+        }
     }
 }
