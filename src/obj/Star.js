@@ -1,3 +1,5 @@
+import GameObject from './GameObject.js';
+
 export default class Star extends GameObject {
     constructor(x, y) {
         super(x, y, false);
