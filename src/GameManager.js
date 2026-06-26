@@ -18,6 +18,7 @@ export default class GameManager {
         for (let i = 0; i < 100; i++) {
             this.stars.push(new Star(Math.random() * this.width, Math.random() * this.height));
         }
+        this.entities = [this.ship];
     }
 
     addBullet(bullet) {
@@ -35,7 +36,6 @@ export default class GameManager {
         }
 
         ship.update();
-        if (!this.entities.includes(ship)) this.entities.push(ship);
 
         for (let i = this.bullets.length - 1; i >= 0; i--) {
             this.bullets[i].update();
@@ -47,32 +47,53 @@ export default class GameManager {
 
         this.stars.forEach(star => star.update());
 
-        this.checkCollisions(ship);
+        this.checkCollisions();
     }
 
     isKeyPressed(code) {
-        return this.inputManager.isKeyPressed(code);
+        return this.inputManager.isKKeyPressed(code);
     }
 
-    checkCollisions(ship) {
+    checkCollisions() {
+        const ship = this.ship;
         const shipRadius = 10;
-        for (let i = this.entities.length - 1; i >= 0; i--) {
-            const entity = this.entities[i];
-            if (entity === ship || !entity.hitEnable) continue;
 
-            const dx = ship.x - entity.x;
-            const dy = ship.y - entity.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            const entityRadius = entity.hitRadius || 0;
+        for (let i = 0; i < this.entities.length; i++) {
+            for (let j = i + 1; j < this.entities.length; j++) {
+                const entityA = this.entities[i];
+                const entityB = this.entities[j];
 
-            if (distance < shipRadius + entityRadius) {
-                if (entity.constructor.name === 'Bullet') {
-                    ship.hp -= 10;
-                    this.bullets = this.bullets.filter(b => b !== entity);
-                    this.entities = this.entities.filter(e => e !== entity);
+                if (!entityA.hitEnable && !entityB.hitEnable) continue;
+
+                const dx = entityA.x - entityB.x;
+                const dy = entityA.y - entityB.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const radiusA = entityA.hitRadius || (entityA.constructor.name === 'Ship' ? 10 : 0);
+                const radiusB = entityB.hitRadius || (entityB.constructor.name === 'Ship' ? 10 : 0);
+
+                if (distance < radiusA + radiusB) {
+                    this.handleCollision(entityA, entityB);
                 }
             }
         }
+    }
+
+    handleCollision(a, b) {
+        const ship = this.ship;
+        const bulletClass = 'Bullet';
+
+        if (a.constructor.name === bulletClass && b.constructor.name === 'Ship') {
+            ship.hp -= 10;
+            this.removeEntity(a);
+        } else if (b.constructor.name === bulletClass && a.constructor.name === 'Ship') {
+            ship.hp -= 10;
+            this.removeEntity(b);
+        }
+    }
+
+    removeEntity(entity) {
+        this.entities = this.entities.filter(e => e !== entity);
+        this.bullets = this.bullets.filter(b => b !== entity);
     }
 
     draw(ctx) {
