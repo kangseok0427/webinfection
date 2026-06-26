@@ -7,6 +7,7 @@ import Bullet from './obj/Bullet.js';
 export default class GameManager {
     constructor(width, height) {
         this.width = width;
+        this.hitEnable = true;
         this.height = height;
         this.inputManager = new InputManager();
         this.entities = [];
@@ -70,7 +71,27 @@ export default class GameManager {
     }
 
     checkCollisions() {
-        // Collision logic implementation placeholder
+        for (let i = 0; i < this.entities.length; i++) {
+            for (let j = i + 1; j < this.entities.length; j++) {
+                const a = this.entities[i];
+                const b = this.entities[j];
+
+                if (a.hitEnable && b.hitEnable) {
+                    const dx = a.x - b.x;
+                    const dy = a.y - b.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    const minDistance = a.hitRadius + b.hitRadius;
+
+                    if (distance < minDistance) {
+                        const aName = a.constructor.name;
+                        const bName = b.constructor.name;
+                        
+                        a.handleHit(bName);
+                        b.handleHit(aName);
+                    }
+                }
+            }
+        }
     }
 
     draw(ctx) {
