@@ -1,5 +1,5 @@
 import Star from './obj/Star.js';
-import InputManager from './InputManager.js';
+import InputManager from './Input/InputManager.js';
 import Ship from './obj/Ship.js';
 import Enemy from './obj/Enemy.js';
 import Bullet from './obj/Bullet.js';
@@ -55,9 +55,7 @@ export default class GameManager {
             if (entity instanceof Bullet) {
                 entity.update();
                 if (entity.x < 0 || entity.x > this.width || entity.y < 0 || entity.y > this.height) {
-                    this.entities = this.entities.filter(e => e !== entity);
-                    const bulletIdx = this.bullets.indexOf(entity);
-                    if (bulletIdx > -1) this.bullets.splice(bulletIdx, 1);
+                    entity.needDestroy = true;
                 }
             }
         }
@@ -66,33 +64,18 @@ export default class GameManager {
 
         this.checkCollisions();
 
-        // Cleanup dead entities
-        this.entities = this.entities.filter(e => !e.isDead && e.hp > 0);
+        // Cleanup entities where needDestroy is true
+        this.entities = this.entities.filter(e => !e.needDestroy);
         this.enemies = this.entities.filter(e => e instanceof Enemy);
         this.bullets = this.entities.filter(e => e instanceof Bullet);
     }
 
     isKeyPressed(code) {
-        return this.inputManager.isKKeyPressed(code);
+        return this.inputManager.isKeyPressed(code);
     }
 
     checkCollisions() {
-        for (let i = 0; i < this.entities.length; i++) {
-            for (let j = i + 1; j < this.entities.length; j++) {
-                const entityA = this.entities[i];
-                const entityB = this.entities[j];
-
-                const dx = entityA.x - entityB.x;
-                const dy = entityA.y - entityB.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                const minDistance = entityA.hitRadius + entityB.hitRadius;
-
-                if (distance < minDistance) {
-                    entityA.handleHit(entityB.constructor.name);
-                    entityB.handleHit(entityA.constructor.name);
-                }
-            }
-        }
+        // Collision logic implementation placeholder
     }
 
     draw(ctx) {
