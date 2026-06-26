@@ -4,7 +4,6 @@ export default class GameObject {
         this.y = y;
         this.hitEnable = hitEnable;
         this.hitRadius = 0;
-        this.onHitEvent = null;
     }
 
     setHitRadius(radius) {
@@ -12,9 +11,7 @@ export default class GameObject {
         this.hitEnable = true;
     }
 
-    handleHit(otherEntity) {
-        if (this.onHitEvent) {
-            this.onHitEvent(otherEntity.constructor.name);
-        }
+    handleHit(from) {
+        // To be implemented by subclasses
     }
 }
