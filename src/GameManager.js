@@ -72,20 +72,11 @@ export default class GameManager {
                 const radiusB = entityB.hitRadius || (entityB.constructor.name === 'Ship' ? 10 : 0);
 
                 if (distance < radiusA + radiusB) {
-                    this.onHitEvent(entityA.constructor.name);
-                    this.onHitEvent(entityB.constructor.name);
-                    this.handleCollision(entityA, entityB);
+                    entityA.handleHit(entityB.constructor.name);
+                    entityB.handleHit(entityA.constructor.name);
                 }
             }
         }
-    }
-
-    onHitEvent(className) {
-        // Event triggered on collision
-    }
-
-    handleCollision(entityA, entityB) {
-        // Collision logic implementation
     }
 
     draw(ctx) {
