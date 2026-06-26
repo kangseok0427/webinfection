@@ -14,7 +14,7 @@ export default class Bullet extends GameObject {
     }
     handleHit(fromName) {
         if (fromName === 'Enemy') {
-            this.isDead = true;
+            this.needDestroy = true;
         }
     }
     draw(ctx) {
