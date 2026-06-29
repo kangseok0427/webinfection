@@ -12,6 +12,7 @@ export default class GameManager {
         this.inputManager = new InputManager();
         this.entities = [];
         this.ship = new Ship(width / 2, height / 2);
+        this.lastShotTime = 0;
     }
 
     initObjs() {
@@ -22,8 +23,9 @@ export default class GameManager {
         }
         
         for (let i = 0; i < 5; i++) {
-            const enemy = new Enemy(Math.random() * this.width, Math.random() * this.height);
-            this.entities.push(enemy);
+            const enemy = new Bullet(0, 0, 0); // Placeholder for logic
+            const enemyObj = new Enemy(Math.random() * this.width, Math.random() * this.height);
+            this.entities.push(enemyObj);
         }
 
         this.entities.push(this.ship);
@@ -40,6 +42,15 @@ export default class GameManager {
         if (this.inputManager.isKeyPressed('ArrowUp') || this.inputManager.isKeyPressed('KeyW')) {
             ship.velocityX += Math.cos(ship.angle) * 0.2;
             ship.velocityY += Math.sin(ship.angle) * 0.2;
+        }
+
+        if (this.inputManager.isKeyPressed('Space')) {
+            const now = Date.now();
+            if (now - this.lastShotTime > 250) {
+                const bullet = new Bullet(ship.x, ship.y, ship.angle);
+                this.addBullet(bullet);
+                this.lastShotTime = now;
+            }
         }
 
         ship.update();
@@ -61,8 +72,6 @@ export default class GameManager {
         }
 
         this.checkCollisions();
-
-        // Cleanup entities where needDestroy is true
         this.entities = this.entities.filter(e => !e.needDestroy);
     }
 
