@@ -23,8 +23,7 @@ export default class GameManager {
         }
         
         for (let i = 0; i < 5; i++) {
-            const enemyObj = new
-            new Enemy(Math.random() * this.width, Math.random() * this.height);
+            const enemyObj = new Enemy(Math.random() * this.width, Math.random() * this.height);
             this.entities.push(enemyObj);
         }
 
