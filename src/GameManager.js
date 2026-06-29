@@ -9,7 +9,6 @@ export default class GameManager {
         this.width = width;
         this.hitEnable = true;
         this.height = height;
-        this.inputManager = new InputlagManager();
         this.inputManager = new InputManager();
         this.entities = [];
         this.ship = new Ship(width / 2, height / 2);
@@ -24,7 +23,8 @@ export default class GameManager {
         }
         
         for (let i = 0; i < 5; i++) {
-            const enemyObj = new Enemy(Math.random() * this.width, Math.random() * this.height);
+            const enemyObj = new
+            new Enemy(Math.random() * this.width, Math.random() * this.height);
             this.entities.push(enemyObj);
         }
 
