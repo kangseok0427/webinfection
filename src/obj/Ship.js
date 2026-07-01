@@ -10,8 +10,12 @@ export default class Ship extends GameObject {
         this.maxHp = 100;
         this.friction = 0.99;
         this.setHitRadius(10);
+        this.recoilCooldown = 0;
     }
     update() {
+        if (this.recoilCooldown > 0) {
+            this.recoilCooldown--;
+        }
         this.x += this.velocityX;
         this.y += this.velocityY;
         this.velocityX *= this.friction;
@@ -34,5 +38,17 @@ export default class Ship extends GameObject {
         ctx.lineWidth = 2;
         ctx.stroke();
         ctx.restore();
+    }
+    takeDamage(amount) {
+        if (this.recoilCooldown === 0) {
+            this.hp -= amount;
+            if (this.hp <= 0) {
+                this.hp = 0;
+            } else {
+                this.recoilCooldown = 30; // Recoil for 30 frames
+                this.velocityX += -Math.cos(this.angle) * 5;
+                this.velocityY += -Math.sin(this.angle) * 5;
+            }
+        }
     }
 }

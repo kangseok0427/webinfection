@@ -10,9 +10,15 @@ export default class Enemy extends GameObject {
         this.maxHp = 50;
         this.speed = 1.5;
         this.setHitRadius(12);
+        this.recoilTime = 0;
     }
 
     update(ship) {
+        if (this.recoilTime > 0) {
+            this.recoilTime--;
+            return;
+        }
+
         const dx = ship.x - this.x;
         const dy = ship.y - this.y;
         this.angle = Math.atan2(dy, dx);
@@ -31,6 +37,11 @@ export default class Enemy extends GameObject {
             if (this.hp <= 0) {
                 this.hp = 0;
                 this.needDestroy = true;
+            } else {
+                this.recoilTime = 30; // Recoil for 30 frames
+                const recoilAngle = Math.random() * Math.PI * 2;
+                this.x += Math.cos(recoilAngle) * 5;
+                this.y += Math.sin(recoilAngle) * 5;
             }
         }
     }

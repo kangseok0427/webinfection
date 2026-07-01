@@ -101,6 +101,10 @@ export default class GameManager {
                             this.playerHP -= 10;
                             if (this.playerHP <= 0) {
                                 this.gameOver();
+                            } else {
+                                // 넉백 로직 추가
+                                ship.velocityX *= -0.5;
+                                ship.velocityY *= -0.5;
                             }
                         }
                     }
