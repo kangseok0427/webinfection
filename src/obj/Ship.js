@@ -16,8 +16,6 @@ export default class Ship extends GameObject {
         this.y += this.velocityY;
         this.velocityX *= this.friction;
         this.velocityY *= this.friction;
-        if (Math.abs(this.x - window.innerWidth) < 10 || Math.abs(this.x) < 10) this.velocityX *= -1;
-        if (Math.abs(this.y - window.innerHeight) < 10 || Math.abs(this.y) < 10) this.velocityY *= -1;
         if (this.x < 0) this.x = window.innerWidth;
         if (this.x > window.innerWidth) this.x = 0;
         if (this.y < 0) this.y = window.innerHeight;
