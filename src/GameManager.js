@@ -7,12 +7,12 @@ import Bullet from './obj/Bullet.js';
 export default class GameManager {
     constructor(width, height) {
         this.width = width;
-        this.hitEnable = true;
         this.height = height;
         this.inputManager = new InputManager();
         this.entities = [];
         this.ship = new Ship(width / 2, height / 2);
         this.lastShotTime = 0;
+        this.syncedData = {};
     }
 
     initObjs() {
@@ -32,6 +32,7 @@ export default class GameManager {
 
     addBullet(bullet) {
         this.entities.push(bullet);
+        this.syncedData.bullets = this.entities.filter(e => e instanceof Bullet).map(b => ({ x: b.x, y: b.y, angle: b.angle }));
     }
 
     update() {
@@ -103,5 +104,10 @@ export default class GameManager {
         for (const entity of this.entities) {
             entity.draw(ctx);
         }
+    }
+
+    syncData() {
+        // Simulate syncing data to other clients
+        console.log('Syncing data:', this.syncedData);
     }
 }

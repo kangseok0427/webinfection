@@ -57,6 +57,38 @@
             overlay.style.opacity = '0';
             setTimeout(() => overlay.style.display = 'none', 500);
         });
+
+        // WebSocket connection to synchronize game state across multiple instances
+        const socket = new WebSocket('ws://example.com/sync');
+
+        socket.onopen = () => {
+            console.log('Connected to the server');
+        };
+
+        socket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            // Handle incoming synchronization data
+            if (data.type === 'gameState') {
+                // Update game state based on received data
+                console.log('Received game state:', data.state);
+            }
+        };
+
+        socket.onclose = () => {
+            console.log('Disconnected from the server');
+        };
+
+        // Function to send game state updates to the server
+        function sendGameState(state) {
+            const message = JSON.stringify({ type: 'gameState', state });
+            socket.send(message);
+        }
+
+        // Example usage: Send game state every frame or at specific intervals
+        setInterval(() => {
+            const gameState = { /* current game state */ };
+            sendGameState(gameState);
+        }, 1000); // Adjust the interval as needed
     </script>
 </body>
 </html>

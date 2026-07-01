@@ -20,6 +20,7 @@ function init() {
     resize();
     gameManager = new GameManager(canvas.width, canvas.height);
     gameManager.initObjs();
+    setupWebSocket();
 }
 
 function update() {
@@ -37,6 +38,25 @@ function loop() {
     update();
     draw();
     requestAnimationFrame(loop);
+}
+
+function setupWebSocket() {
+    const socket = new WebSocket('ws://example.com/game');
+
+    socket.onopen = () => {
+        console.log('Connected to the server');
+    };
+
+    socket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (gameManager && typeof gameManager.handleMessage === 'function') {
+            gameManager.handleMessage(data);
+        }
+    };
+
+    socket.onclose = () => {
+        console.log('Disconnected from the server');
+    };
 }
 
 window.addEventListener('resize', resize);
