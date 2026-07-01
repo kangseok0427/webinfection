@@ -15,13 +15,9 @@ export default class Enemy extends GameObject {
     update(ship) {
         const dx = ship.x - this.x;
         const dy = ship.y - this.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance > 100) {
-            this.angle = Math.atan2(dy, dx);
-            this.x += Math.cos(this.angle) * this.speed;
-            this.y += Math.sin(this.angle) * this.speed;
-        }
+        this.angle = Math.atan2(dy, dx);
+        this.x += Math.cos(this.angle) * this.speed;
+        this.y += Math.sin(this.angle) * this.speed;
 
         if (this.x < 0) this.x = window.innerWidth;
         if (this.x > window.innerWidth) this.x = 0;
