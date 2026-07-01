@@ -21,7 +21,7 @@
             text-shadow: 0 0 20px #0f0; letter-spacing: 15px;
             text-align: center;
         }
-        #start-button {
+        .play-btn {
             padding: 15px 60px; font-size: 28px;
             background: transparent; color: #0f0;
             border: 3px solid #0f0; cursor: pointer;
@@ -29,7 +29,7 @@
             box-shadow: 0 0 10px #0f0;
             letter-spacing: 5px;
         }
-        #start-button:hover {
+        .play-btn:hover {
             background: #0f0; color: #000;
             box-shadow: 0 0 30px #0f0; transform: scale(1.1);
         }
@@ -42,7 +42,7 @@
 <body style="margin:0; overflow:hidden; font-family:monospace;">
     <div id="ui-overlay">
         <h1 id="game-title">WEB<br>INFECTION</h1>
-        <button id="start-button">PLAY</button>
+        <button class="play-btn">PLAY</button>
         <div class="instructions">
             [ WAS ] TO MOVE<br>
             [ SPACE ] TO SHOOT<br>
@@ -52,43 +52,11 @@
     <canvas id="game-canvas"></canvas>
     <script type="module" src="core.js"></script>
     <script>
-        document.getElementById('start-button').addEventListener('click', () => {
+        document.querySelector('.play-btn').addEventListener('click', () => {
             const overlay = document.getElementById('ui-overlay');
             overlay.style.opacity = '0';
             setTimeout(() => overlay.style.display = 'none', 500);
         });
-
-        // WebSocket connection to synchronize game state across multiple instances
-        const socket = new WebSocket('ws://example.com/sync');
-
-        socket.onopen = () => {
-            console.log('Connected to the server');
-        };
-
-        socket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            // Handle incoming synchronization data
-            if (data.type === 'gameState') {
-                // Update game state based on received data
-                console.log('Received game state:', data.state);
-            }
-        };
-
-        socket.onclose = () => {
-            console.log('Disconnected from the server');
-        };
-
-        // Function to send game state updates to the server
-        function sendGameState(state) {
-            const message = JSON.stringify({ type: 'gameState', state });
-            socket.send(message);
-        }
-
-        // Example usage: Send game state every frame or at specific intervals
-        setInterval(() => {
-            const gameState = { /* current game state */ };
-            sendGameState(gameState);
-        }, 1000); // Adjust the interval as needed
     </script>
 </body>
 </html>
