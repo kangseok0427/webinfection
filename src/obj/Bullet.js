@@ -2,7 +2,7 @@ import GameObject from './GameObject.js';
 
 export default class Bullet extends GameObject {
     constructor(x, y, angle) {
-        super(x, y, true);
+        super(x, y, false);
         this.angle = angle;
         this.velocityX = Math.cos(angle) * 7;
         this.velocityY = Math.sin(angle) * 7;
