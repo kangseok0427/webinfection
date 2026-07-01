@@ -14,6 +14,7 @@ export default class GameManager {
         this.lastShotTime = 0;
         this.syncedData = {};
         this.playerHP = 100; // Initialize player HP
+        this.gameStarted = false; // Add game start flag
     }
 
     initObjs() {
@@ -58,7 +59,7 @@ export default class GameManager {
 
         for (let i = this.entities.length - 1; i >= 0; i--) {
             const entity = this.entities[i];
-            if (entity instanceof Enemy) {
+            if (entity instanceof Enemy && this.gameStarted) { // Check game start flag
                 entity.update(ship);
             }
             if (entity instanceof Bullet) {
@@ -120,6 +121,10 @@ export default class GameManager {
     syncData() {
         // Simulate syncing data to other clients
         console.log('Syncing data:', this.syncedData);
+    }
+
+    startGame() { // Add start game method
+        this.gameStarted = true;
     }
 
     gameOver() {
