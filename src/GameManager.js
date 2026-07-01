@@ -13,6 +13,7 @@ export default class GameManager {
         this.ship = new Ship(width / 2, height / 2);
         this.lastShotTime = 0;
         this.syncedData = {};
+        this.playerHP = 100; // Initialize player HP
     }
 
     initObjs() {
@@ -94,6 +95,13 @@ export default class GameManager {
                     if (distance < minDistance) {
                         a.handleHit(b.constructor.name);
                         b.handleHit(a.constructor.name);
+
+                        if (a instanceof Ship || b instanceof Ship) {
+                            this.playerHP -= 10;
+                            if (this.playerHP <= 0) {
+                                this.gameOver();
+                            }
+                        }
                     }
                 }
             }
@@ -101,6 +109,9 @@ export default class GameManager {
     }
 
     draw(ctx) {
+        ctx.fillStyle = 'green';
+        ctx.fillRect(10, 10, this.playerHP * 2, 20); // Draw HP bar
+
         for (const entity of this.entities) {
             entity.draw(ctx);
         }
@@ -109,5 +120,18 @@ export default class GameManager {
     syncData() {
         // Simulate syncing data to other clients
         console.log('Syncing data:', this.syncedData);
+    }
+
+    gameOver() {
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        const playBtn = document.createElement('button');
+        playBtn.className = 'play-btn';
+        playBtn.textContent = 'Play Again';
+        playBtn.onclick = () => {
+            location.reload();
+        };
+        overlay.appendChild(playBtn);
+        document.body.appendChild(overlay);
     }
 }
