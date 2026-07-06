@@ -27,3 +27,18 @@ body { margin: 0; background: #000; display: flex; justify-content: center; alig
 #game-over-screen.active {
     display: flex;
 }
+
+.character-buff {
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    width: 200px;
+    height: 20px;
+    background-color: blue;
+    z-index: 11;
+    display: none;
+}
+
+.character-buff.active {
+    display: block;
+}

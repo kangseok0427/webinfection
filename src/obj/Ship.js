@@ -11,6 +11,7 @@ export default class Ship extends GameObject {
         this.friction = 0.99;
         this.setHitRadius(10);
         this.recoilCooldown = 0;
+        this.buffActive = false;
     }
     update() {
         if (this.recoilCooldown > 0) {
@@ -34,7 +35,7 @@ export default class Ship extends GameObject {
         ctx.lineTo(-10, -10);
         ctx.lineTo(-10, 10);
         ctx.closePath();
-        ctx.strokeStyle = '#00ffff';
+        ctx.strokeStyle = this.buffActive ? '#ff00ff' : '#00ffff';
         ctx.lineWidth = 2;
         ctx.stroke();
         ctx.restore();
@@ -50,5 +51,11 @@ export default class Ship extends GameObject {
                 this.velocityY += -Math.sin(this.angle) * 5;
             }
         }
+    }
+    applyBuff() {
+        this.buffActive = true;
+        this.maxHp *= 1.5;
+        this.hp = Math.min(this.hp, this.maxHp);
+        this.friction = 0.98;
     }
 }

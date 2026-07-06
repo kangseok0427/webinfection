@@ -15,6 +15,7 @@ export default class GameManager {
         this.syncedData = {};
         this.playerHP = 100; // Initialize player HP
         this.gameStarted = false; // Add game start flag
+        this.mikaRescued = false; // Add Mika rescued flag
     }
 
     initObjs() {
@@ -107,6 +108,11 @@ export default class GameManager {
                                 ship.velocityY *= -0.5;
                             }
                         }
+
+                        if (a instanceof Ship && b instanceof Enemy && b.constructor.name === 'Mika') {
+                            this.mikaRescued = true;
+                            this.applyBuff();
+                        }
                     }
                 }
             }
@@ -142,5 +148,12 @@ export default class GameManager {
         };
         overlay.appendChild(playBtn);
         document.body.appendChild(overlay);
+    }
+
+    applyBuff() {
+        // Apply character buff after rescuing Mika
+        this.ship.speed *= 1.5;
+        this.ship.bulletSpeed *= 1.5;
+        console.log('Character buff applied!');
     }
 }
