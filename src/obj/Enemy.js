@@ -43,6 +43,10 @@ export default class Enemy extends GameObject {
                 this.x += Math.cos(recoilAngle) * 5;
                 this.y += Math.sin(recoilAngle) * 5;
             }
+        } else if (fromName === 'Ship') {
+            // Handle collision with the ship
+            this.needDestroy = true;
+            // Optionally, you can add game over logic here
         }
     }
 
