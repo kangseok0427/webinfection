@@ -12,7 +12,7 @@ export default class Bullet extends GameObject {
         this.y += this.velocityY;
     }
     handleHit(fromName) {
-        if (fromName === 'Enemy') {
+        if (fromName === 'Enemy' || fromName === 'Monster') {
             this.needDestroy = true;
         }
     }

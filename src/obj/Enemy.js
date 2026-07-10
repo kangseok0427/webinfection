@@ -31,7 +31,7 @@ export default class Enemy extends GameObject {
         if (this.y > window.innerHeight) this.y = 0;
     }
 
-    handleHit(fromName) {
+    handleHit(fromName, bullet) {
         if (fromName === 'Bullet') {
             this.hp -= 10;
             if (this.hp <= 0) {
@@ -43,6 +43,7 @@ export default class Enemy extends GameObject {
                 this.x += Math.cos(recoilAngle) * 5;
                 this.y += Math.sin(recoilAngle) * 5;
             }
+            bullet.needDestroy = true; // Remove the bullet object
         } else if (fromName === 'Ship') {
             // Handle collision with the ship
             this.needDestroy = true;
