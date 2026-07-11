@@ -3,7 +3,6 @@ import InputManager from './InputManager.js';
 import Ship from './obj/Ship.js';
 import Enemy from './obj/Enemy.js';
 import Bullet from './obj/Bullet.js';
-import Buff from './obj/Buff.js';
 
 export default class GameManager {
     constructor(width, height) {
@@ -33,13 +32,6 @@ export default class GameManager {
         }
 
         this.entities.push(this.ship);
-
-        // Add buffs
-        for (let i = 0; i < 3; i++) {
-            const buffType = ['Speed', 'BulletSpeed', 'Health'][Math.floor(Math.random() * 3)];
-            const buff = new Buff(Math.random() * this.width, Math.random() * this.height, buffType);
-            this.entities.push(buff);
-        }
     }
 
     addBullet(bullet) {
@@ -80,10 +72,6 @@ export default class GameManager {
             }
             if (entity instanceof Star) {
                 entity.update();
-            }
-            if (entity instanceof Buff && ship.collidesWith(entity)) {
-                this.applyBuff(entity.type);
-                entity.needDestroy = true;
             }
         }
 
