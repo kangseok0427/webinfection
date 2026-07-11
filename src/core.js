@@ -43,7 +43,7 @@ function draw() {
     ctx.font = '16px Arial';
     ctx.fillStyle = 'white';
     ctx.textAlign = 'right';
-    ctx.fillText('Version 1.0', canvas.width - 10, 30);
+    ctx.fillText(`Version ${gameManager.version}`, canvas.width - 10, 30);
 }
 
 function loop() {
