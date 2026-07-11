@@ -1,15 +1,14 @@
 import GameObject from './GameObject.js';
 
 export default class UI extends GameObject {
-    constructor() {
+    constructor(version) {
         super(0, 0, false);
-        this.text = '테스트';
+        this.version = version;
     }
 
     draw(ctx) {
-        ctx.font = '48px Arial';
         ctx.fillStyle = '#fff';
-        ctx.textAlign = 'center';
-        ctx.fillText(this.text, canvas.width / 2, canvas.height / 2);
+        ctx.font = '16px Arial';
+        ctx.fillText(`Version: ${this.version}`, canvas.width - 120, 30);
     }
 }

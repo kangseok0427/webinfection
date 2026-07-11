@@ -38,6 +38,12 @@ function draw() {
     ctx.fillStyle = 'white';
     ctx.textAlign = 'center';
     ctx.fillText('테스트', canvas.width / 2, canvas.height / 2);
+
+    // Draw version number at top right
+    ctx.font = '16px Arial';
+    ctx.fillStyle = 'white';
+    ctx.textAlign = 'right';
+    ctx.fillText('Version 1.0', canvas.width - 10, 30);
 }
 
 function loop() {
