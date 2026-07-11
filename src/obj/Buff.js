@@ -4,30 +4,30 @@ export default class Buff extends GameObject {
     constructor(x, y, type) {
         super(x, y, false);
         this.type = type;
-        this.duration = 10; // Duration in seconds
+        this.width = 20;
+        this.height = 20;
+        this.color = 'blue';
     }
 
-    applyBuff(character) {
+    draw(ctx) {
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
+    }
+
+    applyEffect(ship) {
         switch (this.type) {
             case 'speed':
-                character.speed *= 1.5;
+                ship.speed += 0.5;
                 break;
-            case 'damage':
-                character.damage += 20;
+            case 'fireRate':
+                ship.fireRate -= 100; // Decrease fire rate in milliseconds
                 break;
-            case 'shield':
-                character.shield = true;
+            case 'health':
+                ship.health += 20;
+                if (ship.health > ship.maxHealth) {
+                    ship.health = ship.maxHealth;
+                }
                 break;
-            default:
-                console.log('Unknown buff type');
-        }
-    }
-
-    update(deltaTime) {
-        this.duration -= deltaTime;
-        if (this.duration <= 0) {
-            // Remove the buff from the character
-            this.active = false;
         }
     }
 }
