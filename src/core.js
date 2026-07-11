@@ -5,6 +5,12 @@ const ctx = canvas.getContext('2d');
 
 let gameManager;
 let updateLog = [];
+let changeLog = [
+    "Added HP bar display.",
+    "Added '테스트' text in the center of the screen.",
+    "Added version number display at top right.",
+    "Added update log box at bottom left."
+];
 
 function resize() {
     canvas.width = window.innerWidth;
@@ -62,6 +68,21 @@ function draw() {
     let y = canvas.height - 130;
     for (let log of updateLog) {
         ctx.fillText(log, 25, y);
+        y -= 20;
+    }
+
+    // Draw change log box
+    ctx.fillStyle = '#222';
+    ctx.fillRect(220, canvas.height - 150, 300, 140);
+    ctx.strokeStyle = '#fff';
+    ctx.strokeRect(220, canvas.height - 150, 300, 140);
+
+    // Draw change log text
+    ctx.font = '14px Arial';
+    ctx.fillStyle = 'white';
+    y = canvas.height - 130;
+    for (let change of changeLog) {
+        ctx.fillText(change, 235, y);
         y -= 20;
     }
 }
