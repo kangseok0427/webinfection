@@ -12,10 +12,14 @@ export default class Ship extends GameObject {
         this.setHitRadius(10);
         this.recoilCooldown = 0;
         this.buffActive = false;
+        this.flashCooldown = 0;
     }
     update() {
         if (this.recoilCooldown > 0) {
             this.recoilCooldown--;
+        }
+        if (this.flashCooldown > 0) {
+            this.flashCooldown--;
         }
         this.x += this.velocityX;
         this.y += this.velocityY;
@@ -35,7 +39,11 @@ export default class Ship extends GameObject {
         ctx.lineTo(-10, -10);
         ctx.lineTo(-10, 10);
         ctx.closePath();
-        ctx.strokeStyle = this.buffActive ? '#ff00ff' : '#00ffff';
+        if (this.flashCooldown > 0 && this.flashCooldown % 2 === 0) {
+            ctx.strokeStyle = '#ff0000';
+        } else {
+            ctx.strokeStyle = this.buffActive ? '#ff00ff' : '#00ffff';
+        }
         ctx.lineWidth = 2;
         ctx.stroke();
         ctx.restore();
@@ -49,6 +57,7 @@ export default class Ship extends GameObject {
                 this.recoilCooldown = 30; // Recoil for 30 frames
                 this.velocityX += -Math.cos(this.angle) * 5;
                 this.velocityY += -Math.sin(this.angle) * 5;
+                this.flashCooldown = 10; // Flash for 10 frames
             }
         }
     }

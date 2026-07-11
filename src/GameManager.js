@@ -17,6 +17,7 @@ export default class GameManager {
         this.playerHP = 100; // Initialize player HP
         this.gameStarted = false; // Add game start flag
         this.mikaRescued = false; // Add Mika rescued flag
+        this.flashTimer = 0; // Add flash timer for feedback
     }
 
     initObjs() {
@@ -88,6 +89,11 @@ export default class GameManager {
 
         this.checkCollisions();
         this.entities = this.entities.filter(e => !e.needDestroy);
+
+        // Flash effect for feedback
+        if (this.flashTimer > 0) {
+            this.flashTimer--;
+        }
     }
 
     isKeyPressed(code) {
@@ -118,6 +124,7 @@ export default class GameManager {
                                 // 넉백 로직 추가
                                 ship.velocityX *= -0.5;
                                 ship.velocityY *= -0.5;
+                                this.flashTimer = 10; // Start flash effect
                             }
                         }
 
@@ -141,9 +148,15 @@ export default class GameManager {
         ctx.fillStyle = 'green';
         ctx.fillRect(10, 10, this.playerHP * 2, 20); // Draw HP bar
 
+        if (this.flashTimer > 0 && this.flashTimer % 2 === 0) { // Flash effect
+            ctx.globalAlpha = 0.5;
+        }
+
         for (const entity of this.entities) {
             entity.draw(ctx);
         }
+
+        ctx.globalAlpha = 1; // Reset global alpha
     }
 
     syncData() {
