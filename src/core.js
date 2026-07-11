@@ -54,7 +54,7 @@ function draw() {
     ctx.font = '16px Arial';
     ctx.fillStyle = 'white';
     ctx.textAlign = 'right';
-    ctx.fillText(`Version ${gameManager.version}`, canvas.width - 10, 30);
+    ctx.fillText(`Version v4.5.2`, canvas.width - 10, 30);
 
     // Draw update log box
     ctx.fillStyle = '#222';
