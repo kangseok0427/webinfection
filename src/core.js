@@ -4,6 +4,7 @@ const canvas = document.getElementById('game-canvas');
 const ctx = canvas.getContext('2d');
 
 let gameManager;
+let updateLog = [];
 
 function resize() {
     canvas.width = window.innerWidth;
@@ -21,6 +22,10 @@ function init() {
 
 function update() {
     if (gameManager) gameManager.update();
+    updateLog.push(`Update at ${new Date().toLocaleTimeString()}`);
+    if (updateLog.length > 10) {
+        updateLog.shift();
+    }
 }
 
 function draw() {
@@ -44,6 +49,21 @@ function draw() {
     ctx.fillStyle = 'white';
     ctx.textAlign = 'right';
     ctx.fillText(`Version ${gameManager.version}`, canvas.width - 10, 30);
+
+    // Draw update log box
+    ctx.fillStyle = '#222';
+    ctx.fillRect(10, canvas.height - 150, 200, 140);
+    ctx.strokeStyle = '#fff';
+    ctx.strokeRect(10, canvas.height - 150, 200, 140);
+
+    // Draw update log text
+    ctx.font = '14px Arial';
+    ctx.fillStyle = 'white';
+    let y = canvas.height - 130;
+    for (let log of updateLog) {
+        ctx.fillText(log, 25, y);
+        y -= 20;
+    }
 }
 
 function loop() {
