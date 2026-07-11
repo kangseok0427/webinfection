@@ -117,7 +117,7 @@ export default class GameManager {
                         // Remove bullet on collision with enemy
                         if (a instanceof Bullet && b instanceof Enemy) {
                             a.needDestroy = true;
-                            b.needDestroy = true;
+                            b.takeDamage(); // Add damage logic to enemy
                         }
                     }
                 }

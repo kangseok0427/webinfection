@@ -1,4 +1,5 @@
 import GameObject from './GameObject.js';
+import Enemy from './Enemy.js';
 
 export default class Bullet extends GameObject {
     constructor(x, y, angle) {
@@ -11,8 +12,11 @@ export default class Bullet extends GameObject {
         this.x += this.velocityX;
         this.y += this.velocityY;
     }
-    handleHit(fromName) {
+    handleHit(fromName, target) {
         if (fromName === 'Enemy' || fromName === 'Monster') {
+            this.needDestroy = true;
+        } else if (target instanceof Enemy) {
+            target.takeDamage(10);
             this.needDestroy = true;
         }
     }
