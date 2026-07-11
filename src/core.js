@@ -32,6 +32,12 @@ function draw() {
     // Draw HP bar
     ctx.fillStyle = 'red';
     ctx.fillRect(10, 10, gameManager.playerHP * 2, 20);
+
+    // Draw "테스트" text in the center
+    ctx.font = '48px Arial';
+    ctx.fillStyle = 'white';
+    ctx.textAlign = 'center';
+    ctx.fillText('테스트', canvas.width / 2, canvas.height / 2);
 }
 
 function loop() {

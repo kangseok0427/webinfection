@@ -42,3 +42,12 @@ body { margin: 0; background: #000; display: flex; justify-content: center; alig
 .character-buff.active {
     display: block;
 }
+
+#test-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 2rem;
+}
