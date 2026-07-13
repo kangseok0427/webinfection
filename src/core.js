@@ -9,7 +9,9 @@ let changeLog = [
     "Added HP bar display.",
     "Added '테스트' text in the center of the screen.",
     "Added version number display at top right.",
-    "Added update log box at bottom left."
+    "Added update log box at bottom left.",
+    "Added log-like elements for player actions.",
+    "Implemented character attributes and passive skills."
 ];
 
 function resize() {
@@ -83,6 +85,21 @@ function draw() {
     y = canvas.height - 130;
     for (let change of changeLog) {
         ctx.fillText(change, 235, y);
+        y -= 20;
+    }
+
+    // Draw player action logs
+    ctx.fillStyle = '#222';
+    ctx.fillRect(canvas.width - 220, canvas.height - 150, 200, 140);
+    ctx.strokeStyle = '#fff';
+    ctx.strokeRect(canvas.width - 220, canvas.height - 150, 200, 140);
+
+    // Draw player action log text
+    ctx.font = '14px Arial';
+    ctx.fillStyle = 'white';
+    y = canvas.height - 130;
+    for (let action of gameManager.playerActions) {
+        ctx.fillText(action, canvas.width - 215, y);
         y -= 20;
     }
 }

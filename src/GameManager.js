@@ -3,6 +3,7 @@ import InputManager from './InputManager.js';
 import Ship from './obj/Ship.js';
 import Enemy from './obj/Enemy.js';
 import Bullet from './obj/Bullet.js';
+import Buff from './obj/Buff.js';
 
 export default class GameManager {
     constructor(width, height) {
@@ -17,6 +18,7 @@ export default class GameManager {
         this.gameStarted = false; // Add game start flag
         this.mikaRescued = false; // Add Mika rescued flag
         this.flashTimer = 0; // Add flash timer for feedback
+        this.logEntries = []; // Log entries for log-like elements
     }
 
     initObjs() {
@@ -119,12 +121,14 @@ export default class GameManager {
                         if (a instanceof Ship && b instanceof Enemy && b.constructor.name === 'Mika') {
                             this.mikaRescued = true;
                             this.applyBuff();
+                            this.logEntries.push('You have rescued Mika!');
                         }
 
                         // Remove bullet on collision with enemy
                         if (a instanceof Bullet && b instanceof Enemy) {
                             a.needDestroy = true;
                             b.takeDamage(); // Add damage logic to enemy
+                            this.logEntries.push(`Enemy ${b.constructor.name} took damage!`);
                         }
                     }
                 }
@@ -145,6 +149,15 @@ export default class GameManager {
         }
 
         ctx.globalAlpha = 1; // Reset global alpha
+
+        // Draw log entries
+        ctx.fillStyle = 'white';
+        ctx.font = '16px Arial';
+        let y = 40;
+        for (let i = Math.max(0, this.logEntries.length - 5); i < this.logEntries.length; i++) {
+            ctx.fillText(this.logEntries[i], 10, y);
+            y += 20;
+        }
     }
 
     syncData() {
