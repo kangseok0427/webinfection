@@ -110,8 +110,8 @@ function loop() {
     requestAnimationFrame(loop);
 }
 
-document.getElementById('play-btn').addEventListener('click', () => {
-    document.querySelector('.overlay').style.display = 'none';
+document.querySelector('.play-btn').addEventListener('click', () => {
+    document.getElementById('ui-overlay').style.display = 'none';
     if (!gameManager) {
         init();
     } else {
