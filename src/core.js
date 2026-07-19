@@ -112,7 +112,11 @@ function loop() {
 
 document.getElementById('play-btn').addEventListener('click', () => {
     document.querySelector('.overlay').style.display = 'none';
-    init();
+    if (!gameManager) {
+        init();
+    } else {
+        gameManager.start();
+    }
     loop();
 });
 
