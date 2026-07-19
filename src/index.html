@@ -59,16 +59,17 @@
     </div>
     <canvas id="game-canvas"></canvas>
     <span id="version">Version 1.0</span>
-    <script type="module" src="core.js"></script>
-    <script>
+    <script type="module">
+        import GameManager from './GameManager.js';
+
+        const gameManager = new GameManager();
+
         document.querySelector('.play-btn').addEventListener('click', () => {
             const overlay = document.getElementById('ui-overlay');
             overlay.style.opacity = '0';
             setTimeout(() => overlay.style.display = 'none', 500);
             // Start the game
-            import('./GameManager.js').then(module => {
-                new module.default();
-            });
+            gameManager.start();
         });
     </script>
 </body>
