@@ -110,6 +110,10 @@ function loop() {
     requestAnimationFrame(loop);
 }
 
+document.getElementById('play-btn').addEventListener('click', () => {
+    document.querySelector('.overlay').style.display = 'none';
+    init();
+    loop();
+});
+
 window.addEventListener('resize', resize);
-init();
-loop();

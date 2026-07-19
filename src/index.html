@@ -65,6 +65,10 @@
             const overlay = document.getElementById('ui-overlay');
             overlay.style.opacity = '0';
             setTimeout(() => overlay.style.display = 'none', 500);
+            // Start the game
+            import('./GameManager.js').then(module => {
+                new module.default();
+            });
         });
     </script>
 </body>
